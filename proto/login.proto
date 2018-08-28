@@ -1,0 +1,63 @@
+// 创建帐户
+message cs_login_create
+{
+	required string  name 			= 1;   	// 帐户名
+	required int32   type 			= 2;	// 类型 1-密码注册 2-短信注册
+	optional string  passwd 		= 3;	// 密码，密码登录时需要使用
+	optional string  sms_code		= 4;	// 短信验证码 (注册成功后，可考虑通过短信向玩家发送登录密码)
+	optional int32 	 sms_type 		= 5;	// 参见sms_tpl.xls,模板ID
+}
+
+// 登录验证
+message cs_login_verify
+{
+	required int32   type 			= 1;	// 0-游客登录(带密码时与密码登录一致，否则注册游客帐号) 1-密码登录 2-短信验证码 3-授权码
+	optional string  name 			= 2;	// 帐户名
+	optional string  passwd 		= 3;	// 密码
+	optional string  auth_code		= 4;	// 授权码
+	optional string  sms_code 		= 5;	// 短信验证码
+	optional int32 	 sms_type 		= 6;	// 参见sms_tpl.xls,模板ID
+}
+
+// 授权码信息
+message sc_login_auth_info
+{
+	required string  name 			= 1;	// 帐户名
+	required string  auth_code		= 2;	// 授权码
+}
+
+// 游客帐号信息
+message sc_login_vistor_info
+{
+	required string  name 			= 1;	// 帐号名
+	required string  passwd 		= 2;	// 密码(明文)
+}
+
+// 通知前端连接登录服
+message sc_login_server_info
+{
+	required int64   account_id 	= 1; 	// 帐户ID
+	optional string  login_key 		= 2;  	// 登录KEY
+	optional string  domain 		= 3;	// 逻辑服域名
+	optional int32   port 			= 4;	// 逻辑服端口
+}
+
+// 发送短信验证码
+message cs_login_send_smscode
+{
+	required string  phone_number 	= 1;	// 手机号码
+	required int32 	 sms_type 		= 2;	// 参见sms_tpl.xls,模板ID
+}
+
+// 获取短信验证码，测试用
+message cs_login_get_smscode
+{
+	required int32 	 sms_type 		= 1;	// 参见sms_tpl.xls,模板ID
+}
+
+// 向前端发送短信验证码，测试用
+message sc_login_get_smscode
+{
+	required int32 	 sms_type 		= 1;	// 参见sms_tpl.xls,模板ID
+	required string  sms_code 		= 2;	// 短信验证码
+}

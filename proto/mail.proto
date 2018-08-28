@@ -1,0 +1,67 @@
+// 邮件
+message mail
+{
+	message attach
+	{
+		required int32  type_id  = 1; // 道具类型ID
+		required int32  cnt      = 2; // 道具数量
+	}
+	required int32   id 			= 1;  // 邮件ID
+	optional int64   sender_id		= 2;  // 发送者帐户ID
+	optional string  sender_name	= 3;  // 发送者昵称
+	optional int32   type 			= 4;  // 邮件类型 1-个人邮件 2-系统邮件
+	optional int32   tpl_id			= 5;  // 邮件模板ID 0-表示不使用模板
+	optional string  title 			= 6;  // 标题
+	repeated string  param_list 	= 7;  // 模板参数
+	optional string  content 		= 8;  // 邮件内容
+	repeated attach  attach_list	= 9;  // 附件
+	optional int32   state      	= 10; // 邮件状态 0-未读 1-已读 2-已领取
+	optional int32   send_time		= 11; // 发送时间
+	optional int32   expire_time   	= 12; // 邮件到期时间,未领取自动删除
+}
+
+// 新邮件通知
+message sc_mail_notice
+{
+	required int32   cnt 			= 1;  // 待阅读的邮件数量
+}
+
+// 打开邮件列表
+message cs_mail_load_all
+{
+}
+
+// 通知前端邮件列表
+message sc_mail_load_all
+{
+	repeated mail mail_list 		= 1;  // 邮件列表 
+}
+
+// 获取未读邮件列表
+message cs_mail_load_new
+{
+}
+
+// 通知前端未读邮件列表
+message sc_mail_load_new
+{
+	repeated mail mail_list 		= 1;  // 邮件列表
+}
+
+// 读取邮件
+message cs_mail_read
+{
+	required int32  id 				= 1;  // 邮件id
+}
+
+// 删除邮件
+message cs_mail_delete
+{
+	required int32  id 				= 1;  // 邮件id
+}
+
+// 领取附件
+message cs_mail_get_attach
+{
+	required int32  id 				= 1;  // 邮件id
+}

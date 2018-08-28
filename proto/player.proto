@@ -1,0 +1,131 @@
+message device_info
+{
+	required  string  ip 			= 1;	// 登陆IP
+	required  string  machine_code 	= 2;	// 登陆机器码
+	optional  string  net_identify 	= 3;	// 网络标识 0-WIFI；1-2G；2-3G；3-4G
+	optional  string  ssid_name		= 4;	// 用户使用无线网时的ssid名称
+	required  string  channel		= 5;	// 用户登陆包体渠道产品号
+	required  string  channel_ver 	= 6;	// 登陆包体版本号
+	required  int32   terminal 		= 7;	// 终端类型 0-安卓端 1-苹果端 2-pc
+	optional  string  terminal_model= 8;	// 终端机型
+	optional  string  os_type 		= 9;	// 操作系统类型
+}
+
+// 玩家进入
+message cs_player_enter
+{
+	required int64   account_id 	= 1;  	// 帐户ID
+	required string  login_key  	= 2;  	// 登录KEY
+	required device_info device 	= 3;	// 设备信息
+}
+
+// 道具
+message item
+{
+	required int32  uid				= 1;  	// 道具ID
+	required int32  bag_id			= 2;	// 背包ID
+	optional int32  index			= 3; 	// 位置
+	optional int32  type_id 		= 4;  	// 道具类型ID
+	optional int64  cnt 			= 5;  	// 道具数量 数量为0时，表示删除道具
+	optional int32  level			= 6;  	// 等级
+	message attr
+	{
+		required int32  id			= 1;  	// 属性ID
+		required int32  val 		= 2;  	// 属性值
+	}
+	repeated attr  attr_list		= 7;  	// 属性列表
+}
+
+message bag
+{
+	required int32  bag_id 			= 1;	// 背包ID
+	repeated item   item_list 		= 2;	// 道具列表
+}
+
+// 玩家登录信息
+message sc_player_role_data
+{
+	required int64  account_id  	= 1;  	// 帐户ID
+	optional string nick_name   	= 2;  	// 昵称
+	optional int32  avatar_id   	= 3;  	// 图像
+  	optional int32  sex 			= 4;  	// 性别 1-保密 2-男 3-女
+  	optional int32  exp 			= 5;  	// 经验
+  	optional int32  level 			= 6;  	// 等级
+  	optional int64  coin 			= 7;  	// 金币
+  	optional int64  gold 			= 8;  	// 黄金
+  	optional int64  diamond			= 9;  	// 钻石
+  	optional int32  name_modify_time = 10; 	// 昵称修改时间，初始为0
+  	repeated item   item_list		= 11;  	// 主背包物品列表
+  	optional int32  newer_stage 	= 12;	// 新手步骤
+}
+
+// 玩家帐户信息
+message sc_player_account_info
+{
+	optional string name 			= 1;	// 帐户名
+	optional string phone_number	= 2;	// 手机号码
+	optional string id_number		= 3;	// 身份证号码
+	optional int32  binding_time 	= 4; 	// 绑定时间
+}
+
+// 修改玩家信息
+message cs_player_modify
+{  
+	optional string  nick_name 		= 1;  	// 昵称
+	optional int32   avatar_id 		= 2;  	// 图像
+	optional int32   sex 			= 3;  	// 性别 1-保密 2-男 3-女
+}
+
+// 玩家道具变化通知
+message sc_player_item_change
+{
+	required int32 bag_id 			= 1;	// 背包ID
+	repeated item  item_list		= 2;  	// 变化的道具
+}
+
+// 使用道具
+message cs_player_item_use
+{
+	required int32 uid 				= 1;	// 道具ID
+}
+
+// 实名认证，绑定手机，身份证号
+message cs_player_binding_phone
+{
+	required string  phone_number 	= 1;  	// 手机号码
+	required string  sms_code 		= 2;  	// 短信验证码
+	required int32   sms_type 		= 3;  	// 参见sms_tpl.xls,模板ID
+	optional string  id_number		= 4;  	// 身份证号码
+}
+
+// 发送短信验证码
+message cs_player_send_smscode
+{
+	required string  phone_number 	= 1;	// 手机号码
+	required int32 	 sms_type 		= 2;	// 参见sms_tpl.xls,模板ID
+}
+
+// 获取短信验证码，测试用
+message cs_player_get_smscode
+{
+	required int32   sms_type       = 1;	// 参见sms_tpl.xls,模板ID
+}
+
+// 向前端发送短信验证码，测试用
+message sc_player_get_smscode
+{
+	required int32   sms_type    	= 1;	// 参见sms_tpl.xls,模板ID
+	required string  sms_code 		= 2;	// 短信验证码
+}
+
+// 新手指引步数增加
+message cs_player_add_newer_stage
+{
+	required int32  add_stage		= 1;	// 增加指引步数
+}
+
+// 新手指引步数返回
+message sc_player_newer_stage
+{
+	required int32  stage			= 1;	// 当前指引步数
+}
